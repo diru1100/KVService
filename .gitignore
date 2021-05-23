@@ -1,0 +1,7 @@
+# ignore virtual environment, assuming it's name is "venv"
+*venv*
+
+# other files created which are not needed in general
+*pycache*
+*cpython*
+*egg*
