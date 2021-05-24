@@ -7,7 +7,7 @@
 ## TODO
 
 - [x] Watch feature
-- [] Tests
+- [x] Tests
 - [] Exception handling 
 - [] DockerFile
 - [] Documentation

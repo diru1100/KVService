@@ -52,7 +52,7 @@ class KeyValueStore(Resource):
     # Optional didn't ask this one
     def delete(self):
 
-        given_key = request.get_data().decode("utf-8")
+        given_key = request.args["key"]
 
         record_to_be_deleted = Record.query.filter_by(key=given_key).first()
         db.session.delete(record_to_be_deleted)

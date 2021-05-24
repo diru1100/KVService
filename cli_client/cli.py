@@ -1,18 +1,16 @@
 import click
 import requests
-# import json
 import sseclient
 
-base_url = "http://localhost:5002/kvstore"
+store_url = "http://localhost:5002/kvstore"
 
 
 @click.command()
 @click.argument('given_key', default='sample_key', required=True)
 def get(given_key):
     """GET request option, pass key as argument"""
-    response = requests.get(base_url, params={"key": given_key})
+    response = requests.get(store_url, params={"key": given_key})
     click.echo(response.text)
-    click.echo(response.status_code)
 
 
 @click.command()
@@ -21,8 +19,8 @@ def get(given_key):
 def put(given_key, given_value):
     """PUT request option, pass key, value as arguments"""
     response = requests.post(
-        base_url, data={'key': given_key, 'value': given_value})
-    click.echo(response.text)
+        store_url, data={'key': given_key, 'value': given_value})
+    # click.echo(response.text)
 
 
 @click.command()
@@ -32,5 +30,4 @@ def watch(given_key):
     messages = sseclient.SSEClient(
         'http://localhost:5002/listen?key='+given_key)
     for msg in messages:
-        # print("hi")
         print("The key {} has been {}".format(msg.event, msg.data))
