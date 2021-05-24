@@ -35,10 +35,14 @@ class KeyValueStore(Resource):
         )
 
         if record_present:
-            record_present.value = given_value
-            db.session.add(record_present)
-            db.session.commit()
-            message_to_be_passed = "Updated !!"
+            if record_present.value == given_value:
+                message_to_be_passed = "Unchaged !!"
+                pass
+            else:
+                record_present.value = given_value
+                db.session.add(record_present)
+                db.session.commit()
+                message_to_be_passed = "Updated !!"
         else:
             db.session.add(record)
             db.session.commit()

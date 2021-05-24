@@ -8,6 +8,6 @@
 
 - [x] Watch feature
 - [x] Tests
-- [] Exception handling 
+- [x] Exception handling 
 - [] DockerFile
 - [] Documentation
