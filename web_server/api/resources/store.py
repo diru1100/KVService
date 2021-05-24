@@ -1,7 +1,12 @@
+from os import environ
 from flask_restful import Resource
 from .. import db
 from ..common.models import Record
 from flask import request
+from ..common.subscribe import MessageAnnouncer, format_sse
+
+
+announcer = MessageAnnouncer()
 
 
 class KeyValueStore(Resource):
@@ -10,6 +15,9 @@ class KeyValueStore(Resource):
         # no validation is done, can be made more secure using marshmellow or webargs
         data = request.args
         store = Record.query.filter_by(key=data["key"]).first()
+        if store.key in announcer.listeners:
+            msg = format_sse(data="Fetched", event=store.key)
+            announcer.announce(msg=msg)
         return {store.key: store.value}, 200
 
     def post(self):
@@ -20,6 +28,10 @@ class KeyValueStore(Resource):
             key=given_key,
             value=given_value
         )
+        if given_key in announcer.listeners:
+            msg = format_sse(data=given_key, event=given_value)
+            announcer.announce(msg=msg)
+
         db.session.add(record)
         db.session.commit()
         return "Successfully Stored!!", 201

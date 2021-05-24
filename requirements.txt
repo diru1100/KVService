@@ -6,7 +6,7 @@ black==20.8b1
 blinker==1.4
 certifi==2020.12.5
 chardet==4.0.0
--e git+https://github.com/diru1100/KVService.git@d93bd148cd78c799a16cf5a5738e076a0c178929#egg=cli&subdirectory=cli_client
+-e git+https://github.com/diru1100/KVService.git@697e34e66a2ccd7213136ea318ba2d7ec95f836e#egg=cli&subdirectory=cli_client
 click==7.1.2
 Flask==2.0.0
 Flask-RESTful==0.3.9
@@ -29,6 +29,7 @@ regex==2021.4.4
 requests==2.25.1
 six==1.15.0
 SQLAlchemy==1.4.15
+sseclient==0.0.27
 typed-ast==1.4.3
 typing-extensions==3.7.4.3
 urllib3==1.26.4
