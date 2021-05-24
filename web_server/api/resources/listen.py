@@ -13,7 +13,6 @@ class Listener(Resource):
 
             messages = announcer.listen(key)  # returns a queue.Queue
             while True:
-                # print("stream-inside")
                 msg = messages.get()  # blocks until a new message arrives
                 yield msg
 

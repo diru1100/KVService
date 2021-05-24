@@ -14,28 +14,42 @@ class KeyValueStore(Resource):
     def get(self):
         # no validation is done, can be made more secure using marshmellow or webargs
         data = request.args
+        message_to_be_passed = "Fetched"
         store = Record.query.filter_by(key=data["key"]).first()
         if store.key in announcer.listeners:
-            msg = format_sse(data="Fetched", event=store.key)
+            msg = format_sse(data=message_to_be_passed, event=store.key)
             announcer.announce(msg=msg)
-        return {store.key: store.value}, 200
+        return "{} details are {} : {}".format(
+            message_to_be_passed, store.key, store.value), 200
 
     def post(self):
 
         given_key = request.form.get('key')
         given_value = request.form.get('value')
+
+        record_present = Record.query.filter_by(key=given_key).first()
+        message_to_be_passed = "Stored !!"
         record = Record(
             key=given_key,
             value=given_value
         )
+
+        if record_present:
+            record_present.value = given_value
+            db.session.add(record_present)
+            db.session.commit()
+            message_to_be_passed = "Updated !!"
+        else:
+            db.session.add(record)
+            db.session.commit()
+
         if given_key in announcer.listeners:
-            msg = format_sse(data=given_key, event=given_value)
+            msg = format_sse(data=message_to_be_passed, event=given_key)
             announcer.announce(msg=msg)
 
-        db.session.add(record)
-        db.session.commit()
-        return "Successfully Stored!!", 201
+        return "Successfully {} key: {}, value: {}".format(message_to_be_passed, given_key, given_value), 200
 
+    # Optional didn't ask this one
     def delete(self):
 
         given_key = request.get_data().decode("utf-8")
