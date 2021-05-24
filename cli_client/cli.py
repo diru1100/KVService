@@ -2,9 +2,11 @@ import click
 import requests
 import sseclient
 import sys
+# url to access
 store_url = "http://localhost:5002/kvstore"
 
 
+# Only watch is commented to understand better, rest are self explainatory
 @click.command()
 @click.argument('given_key', default='sample_key', required=True)
 def get(given_key):
@@ -37,6 +39,7 @@ def put(given_key, given_value):
 @click.argument('given_key', default='sample_key', required=True)
 def watch(given_key):
     """PUT request option, pass key, value as arguments"""
+    # check listen endpoint to get message
     try:
         messages = sseclient.SSEClient(
             'http://localhost:5002/listen?key='+given_key)
@@ -46,5 +49,7 @@ def watch(given_key):
         else:
             print("Connection lost")
         sys.exit(1)
+    # messages is an instance of SSEClient which
+    # relays messages when certain activity happens
     for msg in messages:
         print("The key {} has been {}".format(msg.event, msg.data))

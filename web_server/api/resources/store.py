@@ -5,7 +5,7 @@ from ..common.models import Record
 from flask import request
 from ..common.subscribe import MessageAnnouncer, format_sse
 
-
+# instatiating announcer to be able to capture changes and check key subscribed or not
 announcer = MessageAnnouncer()
 
 
@@ -16,11 +16,16 @@ class KeyValueStore(Resource):
         data = request.args
         message_to_be_passed = "Fetched"
         store = Record.query.filter_by(key=data["key"]).first()
-        if store.key in announcer.listeners:
-            msg = format_sse(data=message_to_be_passed, event=store.key)
-            announcer.announce(msg=msg)
-        return "{} details are {} : {}".format(
-            message_to_be_passed, store.key, store.value), 200
+        # exception to key not present in db
+        try:
+            # check if subscribed or not and send appropriate message
+            if store is not None and store.key in announcer.listeners:
+                msg = format_sse(data=message_to_be_passed, event=store.key)
+                announcer.announce(msg=msg)
+            return "{} details are {} : {}".format(
+                message_to_be_passed, store.key, store.value), 200
+        except:
+            return "Key not found", 400
 
     def post(self):
 
@@ -35,6 +40,7 @@ class KeyValueStore(Resource):
         )
 
         if record_present:
+            # pass if same value in db is sent
             if record_present.value == given_value:
                 message_to_be_passed = "Unchaged !!"
                 pass
@@ -46,7 +52,7 @@ class KeyValueStore(Resource):
         else:
             db.session.add(record)
             db.session.commit()
-
+        # check if subscribed or not and send appropriate message
         if given_key in announcer.listeners:
             msg = format_sse(data=message_to_be_passed, event=given_key)
             announcer.announce(msg=msg)

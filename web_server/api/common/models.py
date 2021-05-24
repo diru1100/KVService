@@ -4,6 +4,7 @@ sys.path.append("..")
 
 
 class Record(db.Model):
+    # only model defining db schema
     key = db.Column(db.String(64), index=True, primary_key=True)
     value = db.Column(db.String(64), index=True)
 
