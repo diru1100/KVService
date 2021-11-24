@@ -7,11 +7,11 @@
 
 - Tried with python version 3.9.5 in MacOS
 - create and hop in a vitual environment 
-``` python3 -m venv venv```
-``` source venv/bin/avtive```
+    ``` python3 -m venv venv```
+    ``` source venv/bin/avtive```
 
 - Install all packages needed using
-```pip3 install -r requirements.txt```
+    ```pip3 install -r requirements.txt```
 
 - Now that you have all the packages installed, go to the following places and run the project
     - Run the web server [with steps present here](/web_server/README.md) after going to "webserver" directory.
