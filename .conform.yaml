@@ -8,14 +8,14 @@ policies:
         invalidLastCharacters: .
       body:
         required: true
-      dco: true
-      gpg:
-        required: false
-        identity:
-          gitHubOrganization: some-organization
+      # dco: true
+      # gpg:
+      #   required: false
+      #   identity:
+      #     gitHubOrganization: some-organization
       spellcheck:
         locale: US
-      maximumOfOneCommit: true
+      # maximumOfOneCommit: true
       conventional:
         types:
           - "type"
