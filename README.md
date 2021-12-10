@@ -17,4 +17,4 @@
     - Run the web server [with steps present here](/web_server/README.md) after going to "webserver" directory.
     - Run the cli client [with steps present here](/cli_client/README.md) after going to "cli_client" directory.
 
-If interested, you can check out [my thought process in a seperate markdown file](thought_process.md).
+If interested, you can check out [my thought process in a seperate markdown file](thought_process.md)..
